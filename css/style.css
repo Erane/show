@@ -18,8 +18,8 @@ a:hover{
     background: url("../img/bg.png") no-repeat center;
 }
 #wrap{
-    width: 80%;
-    margin: 0 auto;
+    width: 100vw;
+    /*height: 100vh;*/
     text-align: center;
     position: relative;
 }

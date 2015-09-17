@@ -70,13 +70,16 @@
 <script>
     //因为代码不多，方便阅读，直接在下面写了
     $(function(){
+        var warp=$("#warp");
         var list=$("#list");
         var li=list.find("li");
         var liLen=li.length;
-        var air=$(".air li")
+        var air=$(".air li");
         var index=0;
         var playing=false;
         var timer=null;
+
+//        warp.width($(document).width() + "px")
 
         //轮播效果
         function go(key){
