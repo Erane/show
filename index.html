@@ -68,7 +68,7 @@
 <script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <script>
-
+    //因为代码不多，方便阅读，直接在下面写了
     $(function(){
         var list=$("#list");
         var li=list.find("li");
@@ -110,6 +110,7 @@
             if(!playing){
                 return
             }
+            clearInterval(timer);
             index=$(this).index();
             go(index)
         });
@@ -123,13 +124,16 @@
 
 
        $(".auto1_left_btn,.auto1_right_btn").on("tap",function(){
-           $(this).toggleClass("btn1")
-       })
+           $(this).toggleClass("btn1");
+           clearInterval(timer)
+       });
         $(".auto2_left_btn,.auto2_right_btn").on("tap",function(){
-            $(this).toggleClass("btn2")
-        })
+            $(this).toggleClass("btn2");
+            clearInterval(timer)
+        });
         $(".auto3_left_btn,.auto3_right_btn").on("tap",function(){
-            $(this).toggleClass("btn3")
+            $(this).toggleClass("btn3");
+            clearInterval(timer);
         })
 
     })
