@@ -10,138 +10,163 @@
     <meta name="format-detection" content="telephone=no" />
     <!-- 忽略邮箱 -->
     <meta content="email=no" name="format-detection" />
-    <link type="text/css" rel="stylesheet" href="css/clear.css">
-    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link href="css/clear.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
     <title>达安基因</title>
 </head>
 <body>
-    <div id="wrap">
-        <div id="header">
-            <div style="padding:15px 0;visibility: hidden"></div>
-            <div class="title clearfix">
-                <img src="img/t2.png">
+<div id="main">
+    <div id="top">
+        <img src="img/t2.png" id="title">
+        <a class="website">www.daan-gene.com</a>
+        <h3 class="title-msg">达安基因大众基因产品官网</h3>
+    </div>
+    <div id="context">
+        <section class="page page1">
+            <p>从25000个基因、30亿个碱基对中， </p>
+            <p>找出孩子的六大天赋潜能。</p>
+
+            <div class="btn ">
+                <a class="auto1_left_btn ">我要购买</a>
+                <a class="auto1_right_btn">了解产品</a>
             </div>
-            <a class="website">www.daan-gene.com</a>
-            <h3 class="title-msg">达安基因大众基因产品官网</h3>
-        </div>
-        <div id="list">
-            <ul class="clearfix">
-                <li class="auto1">
-                    <img src="img/auto1.png" alt="动力" style="max-width: 100%"/>
-                    <p>从25000个基因、30亿个碱基对中， </p>
-                    <p>找出孩子的六大天赋潜能。</p>
-                    <a class="auto1_left_btn btn">我要购买</a>
-                    <a class="auto1_right_btn btn">了解产品</a>
-                </li>
-                <li  class="auto2" style="display: none">
-                    <img src="img/auto2.png" alt="防御能力"/>
-                    <p>全面解读对9种慢性病、14种癌症的先天防御能力</p>
-                    <div style="padding: 8px 0;visibility: hidden"></div>
-                    <a class="auto2_left_btn btn">我要购买</a>
-                    <a class="auto2_right_btn btn">了解产品</a>
-                </li>
-                <li class="auto3" style="display: none">
-                    <img src="img/auto3.png" alt="女性健康"/>
-                    <p>对女性9个乳腺癌易感基因位点和  </p>
-                    <p>3个卵巢癌易感基因位点进行精准检测</p>
+        </section>
+        <section class="page page2" style="display: none">
+            <p>全面解读对9种慢性病、14种癌症的先天防御能力</p>
+            <div class="btn">
+                <a class="auto2_left_btn ">我要购买</a>
+                <a class="auto2_right_btn ">了解产品</a>
+            </div>
+        </section>
+        <section class="page page3" style="display: none">
+            <p>对女性9个乳腺癌易感基因位点和  </p>
+            <p>3个卵巢癌易感基因位点进行精准检测</p>
 
-                    <a class="auto3_left_btn btn">我要购买</a>
-                    <a class="auto3_right_btn btn">了解产品</a>
-                </li>
-            </ul>
-
-        </div>
-        <div style="padding: 4px 0;visibility: hidden"></div>
-        <ol class="air ">
+            <div class="btn">
+                <a class="auto3_left_btn ">我要购买</a>
+                <a class="auto3_right_btn ">了解产品</a>
+            </div>
+        </section>
+        <ol id="cir">
             <li class="active"></li>
             <li></li>
             <li></li>
         </ol>
-
-        <div id="footer">
-            <img src="img/footer.png">
-        </div>
     </div>
+    <div id="footer">   </div>
+</div>
 
 </body>
 
 <script src="js/jquery-2.1.4.min.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
+
+
 <script>
-    //因为代码不多，方便阅读，直接在下面写了
+    //因为代码量不多，所以直接写在body后面
     $(function(){
-        var warp=$("#warp");
-        var list=$("#list");
-        var li=list.find("li");
-        var liLen=li.length;
-        var air=$(".air li");
-        var index=0;
-        var playing=false;
-        var timer=null;
+        (function(){
+            var con=$("#context");
+            var sections=$(".page");
+            var sectionLen=sections.length;
+            var cir=$("#cir li");
+            var playing=false;
+            var timer=null;
+            var times=null;
+            var index=0;
 
-//        warp.width($(document).width() + "px")
+            var anim={
+                go:function(key){//动画函数
+                    if(playing){
+                        return
+                    }
+                    playing=true;
+                    sections.fadeOut(600);//淡出
+                    index=key % sectionLen;
+                    sections.eq(index).fadeIn(600,function(){//淡入
+                        playing=false
+                    });
+                    cir.eq(index).addClass("active").siblings().removeClass("active");
+                },
+                swipeLeft:function(){
+                    clearInterval(timer);
+                    index++;
+                    anim.go(index);
+                },
+                swipeRightL:function(){
+                    clearInterval(timer);
+                    index--;
+                    anim.go(index);
+                },
+                autoPlay:function(){
+                    timer=setInterval(function(){
+                        index++;
+                        anim.go(index);
+                    },1500)
+                }
+            };
+            //向右滑动
+            sections.on("swipeleft",anim.swipeLeft);
+            //向左滑动
+            sections.on("swiperight",anim.swipeRightL);
+            //自动播放
+            anim.autoPlay();
 
-        //轮播效果
-        function go(key){
-            li.fadeOut(600,function(){
-                playing=true
-            });
-            index=key % liLen;
-            li.eq(index).fadeIn(600,function(){
-                playing=false
-            });
-            air.eq(index).addClass("active").siblings().removeClass("active");
-        }
-        //向右滑动
-        li.on("swipeleft",function(){
-            if(!playing){
-                return
-            }
-            clearInterval(timer);
-            index++;
-            go(index);
-        });
-        //向左滑动
-        li.on("swiperight",function(){
-            if(!playing){
-                return
-            }
-            clearInterval(timer);
-            index--;
-            go(index);
-        });
-        //点击事件
-        air.on("tap",function(){
-            if(!playing){
-                return
-            }
+//            //显示指定产品
+//            //手机屏幕点击太小了，不好点，去掉
+//            cir.on("tap",function(){
+//               index=$(this).index();
+//                anim.go(index)
+//            });
 
-            clearInterval(timer);
-            index=$(this).index();
-            go(index)
-        });
-
-        timer=setInterval(function(){
-            index++;
-            go(index)
-        },1850);
+//            //手指离开后启动自动播放
+//            //有点问题,暂时没想到手指离开后怎么恢复自动播放..
+//            var event= {
+//                touchEnd: function (e) {
+//                    times=setTimeout(function(){
+//                        auto();
+//                    },1000)
+//                }
+//            };
+//            sections.on("touchend",event.touchEnd);
 
 
+            //页面跳转
+            var to={
+                dongLi_buy:function(){
+                    clearInterval(timer);
+                    window.location.href="http://detail.koudaitong.com/show/goods?alias=1io8s082r"
+                },
+                dongLi_look:function(){
+                    clearInterval(timer);
+                    window.location.href="http://gene.hekangwang.com/a_plus.html"
+                },
+                fangYu_buy:function(){
+                    clearInterval(timer);
+                    window.location.href="http://gene.hekangwang.com/c_plus.html"
+                },
+                fangYu_look:function(){
+                    clearInterval(timer);
+                    window.location.href="http://gene.hekangwang.com/c_plus.html"
+                },
+                shouHu_buy:function(){
+                    clearInterval(timer);
+                    window.location.href="http://detail.koudaitong.com/show/goods?alias=q9ahbi3p&v2/goods/q9ahbi3p"
+                },
+                shouHu_look:function(){
+                    clearInterval(timer);
+                    window.location.href="http://gene.hekangwang.com/a_plus.html"
+                }
+            };
+            //为按钮添加事件
 
-
-       $(".auto1_left_btn,.auto1_right_btn").on("tap",function(){
-           $(this).toggleClass("btn1");
-           clearInterval(timer)
-       });
-        $(".auto2_left_btn,.auto2_right_btn").on("tap",function(){
-            $(this).toggleClass("btn2");
-            clearInterval(timer)
-        });
-        $(".auto3_left_btn,.auto3_right_btn").on("tap",function(){
-            $(this).toggleClass("btn3");
-            clearInterval(timer);
-        })
-
+            $(".auto1_left_btn").on("tap",to.dongLi_buy);
+            $(".auto1_right_btn").on("tap",to.dongLi_look);
+            $(".auto2_left_btn").on("tap",to.fangYu_buy);
+            $(".auto2_right_btn").on("tap",to.fangYu_look);
+            $(".auto3_left_btn").on("tap",to.shouHu_buy);
+            $(".auto3_right_btn").on("tap",to.shouHu_look);
+        })()
     })
 </script>
 </html>
