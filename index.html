@@ -94,6 +94,7 @@
             if(!playing){
                 return
             }
+            clearInterval(timer);
             index++;
             go(index);
         });
@@ -102,14 +103,16 @@
             if(!playing){
                 return
             }
+            clearInterval(timer);
             index--;
             go(index);
         });
         //点击事件
-        air.on("tao",function(){
+        air.on("tap",function(){
             if(!playing){
                 return
             }
+
             clearInterval(timer);
             index=$(this).index();
             go(index)
